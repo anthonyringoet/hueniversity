@@ -1,0 +1,10 @@
+{
+  "beep": {
+    "username": "beep",
+    "password": "passbeep"
+  },
+  "bop": {
+    "username": "bop",
+    "password": "passbop"
+  }
+}
