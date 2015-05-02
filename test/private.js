@@ -34,12 +34,58 @@ describe('/private', function() {
             server.inject(request, function(res) {
 
                 expect(res.statusCode).to.equal(200);
-                expect(res.result, 'result').to.equal('Hello, beep');
+                expect(res.result).to.equal('Hello, beep');
 
                 server.stop(done);
             });
         });
     });
+
+    it('returns an error on a wrong password', function(done){
+
+        Server.init(0, function(err, server){
+
+            expect(err).to.not.exist();
+
+            var request = {
+                method: 'GET',
+                url: '/private',
+                headers: {
+                    authorization: internals.header(Users.beep.username, 'bogus')
+                }
+            };
+            server.inject(request, function(res) {
+
+                expect(res.statusCode).to.equal(401);
+
+                server.stop(done);
+            });
+        });
+    });
+
+    it('returns an error on failed auth ', function(done){
+
+        Server.init(0, function(err, server){
+
+            expect(err).to.not.exist();
+
+            var request = {
+                method: 'GET',
+                url: '/private',
+                headers: {
+                    authorization: internals.header(null, 'bogus')
+                }
+            };
+            server.inject(request, function(res) {
+
+                expect(res.statusCode).to.equal(401);
+
+                server.stop(done);
+            });
+        });
+    });
+
+
 });
 
 
